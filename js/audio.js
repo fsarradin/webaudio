@@ -4,22 +4,22 @@ function pitchedNote(note) {
     };
 }
 
-var zero = 1e-5;
+let zero = 1e-5;
 
-var C0 = 16.35;
-var CSharp0 = 17.32;
-var D0 = 18.35;
-var DSharp0 = 19.45;
-var E0 = 20.60;
-var F0 = 21.83;
-var FSharp0 = 23.12;
-var G0 = 24.50;
-var GSharp0 = 25.96;
-var A0 = 27.50;
-var ASharp0 = 29.14;
-var B0 = 30.87;
+let C0 = 16.35;
+let CSharp0 = 17.32;
+let D0 = 18.35;
+let DSharp0 = 19.45;
+let E0 = 20.60;
+let F0 = 21.83;
+let FSharp0 = 23.12;
+let G0 = 24.50;
+let GSharp0 = 25.96;
+let A0 = 27.50;
+let ASharp0 = 29.14;
+let B0 = 30.87;
 
-var Note = {
+let Note = {
     C: pitchedNote(C0),
     CSharp: pitchedNote(CSharp0),
     DFlat: pitchedNote(CSharp0),
@@ -39,10 +39,10 @@ var Note = {
     B: pitchedNote(B0)
 };
 
-var audioCtx = new(window.AudioContext || window.webkitAudioContext);
+let audioCtx = new(window.AudioContext || window.webkitAudioContext);
 
 function signal(f, dest) {
-    var sine = audioCtx.createOscillator();
+    let sine = audioCtx.createOscillator();
     sine.frequency.value = f;
     sine.type = "square";
     sine.connect(dest);
@@ -52,17 +52,17 @@ function signal(f, dest) {
 }
 
 function createVolume(gain, dest) {
-    var volume = audioCtx.createGain();
+    let volume = audioCtx.createGain();
     volume.connect(dest);
     volume.gain.value = gain;
     return volume;
 }
 
-var master = createVolume(1.0, audioCtx.destination);
-var tremolo = audioCtx.createOscillator();
+let master = createVolume(1.0, audioCtx.destination);
+let tremolo = audioCtx.createOscillator();
 tremolo.frequency.value = 6;
 tremolo.start();
-var tremoloGain = createVolume(0.5, master.gain);
+let tremoloGain = createVolume(0.5, master.gain);
 tremolo.connect(tremoloGain);
 
 function Tone(note, dest) {
@@ -101,13 +101,13 @@ Chord.prototype.stop = function() {
     this.volume.disconnect();
 };
 
-var chordCMaj7 = new Chord([Note.C(4), Note.E(4), Note.G(4), Note.B(4)], master);
-var chordDm7 = new Chord([Note.D(4), Note.F(4), Note.A(4), Note.C(5)], master);
-var chordEm7 = new Chord([Note.E(4), Note.G(4), Note.B(4), Note.D(5)], master);
-var chordFMaj7 = new Chord([Note.F(4), Note.A(4), Note.C(5), Note.E(5)], master);
-var chordG7 = new Chord([Note.G(4), Note.B(4), Note.D(5), Note.F(5)], master);
-var chordAm7 = new Chord([Note.A(4), Note.C(5), Note.E(5), Note.G(5)], master);
-var chordBm7b5 = new Chord([Note.B(4), Note.D(5), Note.F(5), Note.A(5)], master);
+let chordCMaj7 = new Chord([Note.C(4), Note.E(4), Note.G(4), Note.B(4)], master);
+let chordDm7 = new Chord([Note.D(4), Note.F(4), Note.A(4), Note.C(5)], master);
+let chordEm7 = new Chord([Note.E(4), Note.G(4), Note.B(4), Note.D(5)], master);
+let chordFMaj7 = new Chord([Note.F(4), Note.A(4), Note.C(5), Note.E(5)], master);
+let chordG7 = new Chord([Note.G(4), Note.B(4), Note.D(5), Note.F(5)], master);
+let chordAm7 = new Chord([Note.A(4), Note.C(5), Note.E(5), Note.G(5)], master);
+let chordBm7b5 = new Chord([Note.B(4), Note.D(5), Note.F(5), Note.A(5)], master);
 
 function play(chord) {
     chord.volume.gain.exponentialRampToValueAtTime(1.0, audioCtx.currentTime + 0.1);
