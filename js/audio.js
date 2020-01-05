@@ -37,7 +37,7 @@ var Note = {
     ASharp: pitchedNote(ASharp0),
     BFlat: pitchedNote(ASharp0),
     B: pitchedNote(B0)
-}
+};
 
 var audioCtx = new(window.AudioContext || window.webkitAudioContext);
 
