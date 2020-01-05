@@ -1,26 +1,25 @@
-
 function pitchedNote(note) {
     return function(pitch) {
-       return note * Math.pow(2, pitch);
+        return note * Math.pow(2, pitch);
     };
- }
- 
+}
+
 var zero = 1e-5;
 
- var C0 = 16.35;
- var CSharp0 = 17.32;
- var D0 = 18.35;
- var DSharp0 = 19.45;
- var E0 = 20.60;
- var F0 = 21.83;
- var FSharp0 = 23.12;
- var G0 = 24.50;
- var GSharp0 = 25.96;
- var A0 = 27.50;
- var ASharp0 = 29.14;
- var B0 = 30.87;
- 
- var Note = {
+var C0 = 16.35;
+var CSharp0 = 17.32;
+var D0 = 18.35;
+var DSharp0 = 19.45;
+var E0 = 20.60;
+var F0 = 21.83;
+var FSharp0 = 23.12;
+var G0 = 24.50;
+var GSharp0 = 25.96;
+var A0 = 27.50;
+var ASharp0 = 29.14;
+var B0 = 30.87;
+
+var Note = {
     C: pitchedNote(C0),
     CSharp: pitchedNote(CSharp0),
     DFlat: pitchedNote(CSharp0),
@@ -38,27 +37,27 @@ var zero = 1e-5;
     ASharp: pitchedNote(ASharp0),
     BFlat: pitchedNote(ASharp0),
     B: pitchedNote(B0)
- }
- 
- var audioCtx = new (window.AudioContext || window.webkitAudioContext);
- 
- function signal(f, dest) {
-     var sine = audioCtx.createOscillator();
-     sine.frequency.value = f;
-     sine.type = "square";
-     sine.connect(dest);
-     sine.start();
+}
+
+var audioCtx = new(window.AudioContext || window.webkitAudioContext);
+
+function signal(f, dest) {
+    var sine = audioCtx.createOscillator();
+    sine.frequency.value = f;
+    sine.type = "square";
+    sine.connect(dest);
+    sine.start();
     //  sine.stop(audioCtx.currentTime + 5);
-     return sine;
- }
- 
- function createVolume(gain, dest) {
+    return sine;
+}
+
+function createVolume(gain, dest) {
     var volume = audioCtx.createGain();
     volume.connect(dest);
     volume.gain.value = gain;
     return volume;
- }
- 
+}
+
 var master = createVolume(1.0, audioCtx.destination);
 var tremolo = audioCtx.createOscillator();
 tremolo.frequency.value = 6;
@@ -75,7 +74,7 @@ function Tone(note, dest) {
         signal(note, this.h1),
         signal(note / 2, this.h2),
         signal(note * 2, this.h3)
-     ];
+    ];
     // this.notes.forEach(n => n.start());
 }
 
@@ -110,11 +109,10 @@ var chordG7 = new Chord([Note.G(4), Note.B(4), Note.D(5), Note.F(5)], master);
 var chordAm7 = new Chord([Note.A(4), Note.C(5), Note.E(5), Note.G(5)], master);
 var chordBm7b5 = new Chord([Note.B(4), Note.D(5), Note.F(5), Note.A(5)], master);
 
- function play(chord) {
+function play(chord) {
     chord.volume.gain.exponentialRampToValueAtTime(1.0, audioCtx.currentTime + 0.1);
- }
- 
- function stop(chord) {
+}
+
+function stop(chord) {
     chord.volume.gain.setValueAtTime(zero, audioCtx.currentTime);
- }
- 
+}
